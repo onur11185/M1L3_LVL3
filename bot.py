@@ -12,6 +12,23 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     print(f'Giriş yapıldı:  {bot.user.name}')
 
+@bot.event
+async def on_member_join(member):
+    for channel in member.guild.text_channels:
+        await channel.send(f' Hoş geldiniz: , {member.mention}!')
+
+@bot.command()
+async def say(ctx, *, message):
+    await ctx.message.delete()
+    await ctx.send(message)
+
+import random
+
+@bot.command()
+async def coinflip(ctx):
+    result = random.choice(["Yazı", "Tura"])
+    await ctx.send(f"**{result}!**")
+
 @bot.command()
 async def start(ctx):
     await ctx.send("Merhaba! Ben bir sohbet yöneticisi botuyum!")
@@ -52,3 +69,4 @@ async def on_message(message):
     await bot.process_commands(message)
 
 bot.run(token)
+
